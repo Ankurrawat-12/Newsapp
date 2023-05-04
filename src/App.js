@@ -23,6 +23,9 @@ export default class App extends Component {
             <Route exact path="/about"
               element={<About mode={this.state.mode} />}
             />
+            <Route exact path="/"
+              element={<News headline="top-headlines" country="in" category="" query="" />}
+            />
             <Route exact path="/top-headlines"
               element={<News headline="top-headlines" country="in" category="" query="" />}
             />

@@ -30,6 +30,10 @@ export class News extends Component {
   }
 
   async componentDidMount() {
+    this.updateNews();
+  }
+
+  async updateNews() {
     let url = "";
     if(this.props.headline === "top-headlines"){
       url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&q=${this.props.query}&category=${this.props.category}&apiKey=08a8e5561a1f4b8d81aefe7634acee9b&page=${this.state.page}&pageSize=16`;
@@ -50,43 +54,17 @@ export class News extends Component {
   }
 
   handlePreviousClick = async () => {
-    let url = "";
-    if(this.props.headline === "top-headlines"){
-      url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&q=${this.props.query}&category=${this.props.category}&apiKey=08a8e5561a1f4b8d81aefe7634acee9b&page=${this.state.page}&pageSize=16`;
-    }
-    else if(this.props.headline === "everything"){
-      url = `https://newsapi.org/v2/everything?&q=${this.props.query}&apiKey=08a8e5561a1f4b8d81aefe7634acee9b&page=${this.state.page}&language=en&pageSize=16`;
-    }
     this.setState({
-      loading: true
-    })
-    let data = await fetch(url);
-    let parsedData = await data.json();
-    this.setState({
-      articles: parsedData.articles,
       page: this.state.page - 1,
-      loading: false
     })
+    this.updateNews();
   }
   
   handleNextClick = async () => {
-    let url = "";
-    if(this.props.headline === "top-headlines"){
-      url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&q=${this.props.query}&category=${this.props.category}&apiKey=08a8e5561a1f4b8d81aefe7634acee9b&page=${this.state.page}&pageSize=16`;
-    }
-    else if(this.props.headline === "everything"){
-      url = `https://newsapi.org/v2/everything?&q=${this.props.query}&apiKey=08a8e5561a1f4b8d81aefe7634acee9b&page=${this.state.page}&language=en&pageSize=16`;
-    }
     this.setState({
-      loading: true
-    })
-    let data = await fetch(url);
-    let parsedData = await data.json();
-    this.setState({
-      articles: parsedData.articles,
       page: this.state.page + 1,
-      loading: false
     })
+    this.updateNews();
   }
 
 
@@ -101,7 +79,7 @@ export class News extends Component {
           {/* TODO News URL */}
           {!this.state.loading && this.state.articles && this.state.articles.map((article) => {
             return <div className='col'  key={article.url}>
-              <NewsItem title={article.title?article.title.substring(0, 45) + "...":""} description={article.description?article.description.substring(0, 88) + "...":""} imgUrl={article.urlToImage?article.urlToImage:"https://source.unsplash.com/random/?Nature/"} newsUrl={article.url} />
+              <NewsItem title={article.title?article.title.substring(0, 45) + "...":""} description={article.description?article.description.substring(0, 88) + "...":""} imgUrl={article.urlToImage?article.urlToImage:"https://source.unsplash.com/random/?Nature/"} newsUrl={article.url} author={article.author} date ={article.publishedAt} source = {article.source.name}/>
             </div>
           })}
         </div>
@@ -115,3 +93,4 @@ export class News extends Component {
 }
 
 export default News
+
