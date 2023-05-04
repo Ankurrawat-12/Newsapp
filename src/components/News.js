@@ -19,7 +19,7 @@ export class News extends Component {
   // }
 
   articles = [];
-
+  
   constructor() {
     super();
     this.state = {
